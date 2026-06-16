@@ -1,0 +1,23 @@
+https://colorhunt.co/
+https://fakestoreapi.com/
+https://fakestoreapi.com/products
+https://lucide.dev/
+Animation: https://michalsnik.github.io/aos/
+modal: https://flowbite.com/docs/getting-started/introduction/
+Design system: https://ui.shadcn.com/
+****how to update project using github****
+cd /d
+ cd "mydocument/webdevelopment/wamp64/www/full stack development/homework/website"
+git add .
+git commit -m "responsive product detail & related product"
+git push origin main
+
+
+ករណីអ្នកមិនទាន់មានកូដក្នុងម៉ាស៊ីនទាល់តែសោះ (Clone):
+git clone https://github.com/Ratana10/sala-react-v2.git
+
+ករណីអ្នកមានកូដចាស់នៅក្នុងម៉ាស៊ីនរួចហើយ (Update):
+git pull origin main
+ករណីចង់ទាញយកឲ្យចំ Commit ID ដែលអ្នកបានផ្ញើមក:
+git fetch origin
+git checkout a906f56524e13ee10e9c922a1cbfb6a41b189ad0

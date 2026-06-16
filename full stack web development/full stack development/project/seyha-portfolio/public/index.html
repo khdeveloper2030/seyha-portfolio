@@ -1,92 +1,579 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
     <title>Seyha Em | Portfolio</title>
-    <style>body { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
-</head>
-<body class="bg-slate-50 text-slate-900">
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        scroll-behavior: smooth;
+      }
+      .mobile-menu {
+        transition: 0.3s ease-in-out;
+      }
+      .mobile-menu.closed {
+        transform: translateX(100%);
+      }
+      .filter-btn {
+        color: #64748b;
+      }
+      .filter-btn.active {
+        background: white;
+        color: #4f46e5;
+        shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      }
 
-    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b">
-        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg">S</div>
-                <span class="text-xl font-extrabold tracking-tighter">SEYHA<span class="text-indigo-600">.DEV</span></span>
+      /* Animation Slide Down */
+      .project-card {
+        animation: slideDown 0.5s ease forwards;
+        opacity: 0;
+      }
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      /* Splash Screen CSS */
+      #splash-screen {
+        position: fixed;
+        inset: 0;
+        background: #0f172a; /* Slate-900 */
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition:
+          opacity 0.8s ease,
+          visibility 0.8s;
+      }
+      .splash-logo {
+        width: 80px;
+        height: 80px;
+        background: #4f46e5;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2.5rem;
+        font-weight: bold;
+        box-shadow: 0 0 30px rgba(79, 70, 229, 0.4);
+        animation: pulse 2s infinite;
+      }
+      .splash-text {
+        margin-top: 20px;
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 800;
+        letter-spacing: -0.05em;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 0.8;
+        }
+      }
+
+      /* Content Wrapper */
+      #main-wrapper {
+        opacity: 0;
+        transition: opacity 1s ease;
+      }
+      #main-wrapper.visible {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-900 overflow-x-hidden">
+    <div id="splash-screen">
+      <div class="splash-logo">S</div>
+      <div class="splash-text">
+        SEYHA<span class="text-indigo-500">.DEV</span>
+      </div>
+      <div class="mt-4 w-48 h-1 bg-slate-800 rounded-full overflow-hidden">
+        <div
+          id="progress-bar"
+          class="h-full bg-indigo-600 w-0 transition-all duration-[2000ms]"
+        ></div>
+      </div>
+    </div>
+
+    <div id="main-wrapper">
+      <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b">
+        <div
+          class="max-w-6xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center"
+        >
+          <div class="flex items-center gap-2">
+            <div
+              class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg"
+            >
+              S
             </div>
-            <div class="flex gap-6 font-semibold text-slate-600">
-                <a href="#projects" class="hover:text-indigo-600">Projects</a>
-                <a href="#contact" class="hover:text-indigo-600">Contact</a>
-                <a href="admin.html" class="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm">Admin Login</a>
+            <span class="text-xl font-extrabold tracking-tighter uppercase"
+              >Seyha<span class="text-indigo-600">.Dev</span></span
+            >
+          </div>
+          <div
+            class="hidden md:flex gap-8 font-semibold text-slate-600 items-center text-sm"
+          >
+            <a href="#projects" class="hover:text-indigo-600 transition"
+              >Projects</a
+            >
+            <a href="#contact" class="hover:text-indigo-600 transition"
+              >Contact</a
+            >
+            <a
+              href="admin.html"
+              class="bg-indigo-600 text-white px-5 py-2 rounded-full hover:bg-indigo-700 transition shadow-md"
+              >Login</a
+            >
+          </div>
+          <button id="menu-toggle" class="md:hidden text-slate-900">
+            <svg
+              class="w-7 h-7"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </nav>
+
+      <div
+        id="mobile-menu"
+        class="mobile-menu closed fixed inset-0 z-40 bg-white md:hidden flex flex-col items-center justify-center gap-8 text-2xl font-bold"
+      >
+        <button id="menu-close" class="absolute top-6 right-6 text-3xl">
+          ×
+        </button>
+        <a href="#projects" class="m-link">Projects</a>
+        <a href="#contact" class="m-link">Contact</a>
+        <a
+          href="admin.html"
+          class="bg-indigo-600 text-white px-8 py-3 rounded-full"
+          >Login</a
+        >
+      </div>
+
+      <header class="max-w-6xl mx-auto px-4 py-16 md:py-24 text-center">
+        <div class="relative w-32 h-32 md:w-40 md:h-40 mx-auto mb-8">
+          <div
+            class="absolute inset-0 bg-indigo-600 rounded-full blur-3xl opacity-10 animate-pulse"
+          ></div>
+          <img
+            id="main-logo"
+            src="https://via.placeholder.com/150"
+            alt="Seyha Logo"
+            class="relative w-full h-full object-cover rounded-full border-4 border-white shadow-2xl"
+          />
+        </div>
+        <h1
+          class="text-4xl md:text-7xl font-extrabold mb-6 tracking-tight leading-tight italic"
+        >
+          <span id="display-title">Full-Stack Developer</span>
+        </h1>
+        <p
+          id="display-bio"
+          class="text-slate-500 italic max-w-2xl mx-auto text-sm md:text-lg px-4 leading-relaxed font-medium"
+        >
+          "Loading bio..."
+        </p>
+      </header>
+
+      <!-- <section id="projects" class="max-w-6xl mx-auto px-4 md:px-6 py-10">
+        <h2
+          class="text-2xl md:text-3xl font-bold mb-10 border-l-4 border-indigo-600 pl-4 text-slate-800 italic uppercase"
+        >
+          Featured Projects
+        </h2>
+        <div
+          id="project-list"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+        ></div>
+      </section> -->
+      <section id="projects" class="max-w-6xl mx-auto px-4 md:px-6 py-10">
+        <div
+          class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4"
+        >
+          <h2
+            class="text-2xl md:text-3xl font-bold border-l-4 border-indigo-600 pl-4 text-slate-800 italic uppercase"
+          >
+            Featured Projects
+          </h2>
+
+          <div class="flex bg-slate-200 p-1 rounded-xl">
+            <button
+              onclick="filterProjects('All')"
+              class="filter-btn active px-6 py-2 rounded-lg text-xs font-bold transition"
+            >
+              ALL
+            </button>
+            <button
+              onclick="filterProjects('Web')"
+              class="filter-btn px-6 py-2 rounded-lg text-xs font-bold transition"
+            >
+              WEB
+            </button>
+            <button
+              onclick="filterProjects('Mobile')"
+              class="filter-btn px-6 py-2 rounded-lg text-xs font-bold transition"
+            >
+              MOBILE
+            </button>
+          </div>
+        </div>
+
+        <div
+          id="project-list"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 min-h-[400px]"
+        ></div>
+      </section>
+
+      <section
+        id="contact"
+        class="max-w-6xl mx-auto px-4 md:px-6 py-16 md:py-24"
+      >
+        <div
+          class="bg-indigo-900 rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-12 text-white flex flex-col lg:flex-row gap-12 shadow-2xl relative overflow-hidden border border-indigo-800"
+        >
+          <div class="lg:w-1/2 z-10">
+            <h2
+              class="text-3xl md:text-4xl font-bold mb-6 italic text-white uppercase"
+            >
+              Let's Connect
+            </h2>
+            <div class="space-y-4">
+              <div
+                class="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10"
+              >
+                <span class="text-2xl">📧</span>
+                <div class="overflow-hidden">
+                  <p class="text-[10px] text-indigo-300 uppercase font-bold">
+                    Email
+                  </p>
+                  <p id="display-gmail" class="font-bold text-sm truncate">
+                    Loading...
+                  </p>
+                </div>
+              </div>
+              <a
+                id="display-tele-link"
+                href="#"
+                target="_blank"
+                class="flex items-center gap-4 bg-white/10 p-4 rounded-2xl border border-white/20 hover:bg-white/20 transition group"
+              >
+                <span class="text-2xl group-hover:scale-110 transition"
+                  >✈️</span
+                >
+                <div>
+                  <p class="text-[10px] text-indigo-300 uppercase font-bold">
+                    Telegram
+                  </p>
+                  <p class="font-bold text-sm">Chat with me</p>
+                </div>
+              </a>
             </div>
+          </div>
+
+          <div
+            class="lg:w-1/2 bg-white/10 p-6 md:p-8 rounded-3xl backdrop-blur-md border border-white/20 z-10 shadow-inner"
+          >
+            <form id="contactForm" class="space-y-4">
+              <input
+                type="text"
+                id="s_name"
+                placeholder="Full Name"
+                class="w-full p-4 bg-white rounded-xl outline-none text-sm text-indigo-900"
+                required
+              />
+              <input
+                type="email"
+                id="s_email"
+                placeholder="Your Email"
+                class="w-full p-4 bg-white rounded-xl outline-none text-sm text-indigo-900"
+                required
+              />
+              <textarea
+                id="s_message"
+                placeholder="Message"
+                rows="4"
+                class="w-full p-4 bg-white rounded-xl outline-none text-sm text-indigo-900"
+                required
+              ></textarea>
+              <button
+                type="submit"
+                id="sendBtn"
+                class="w-full bg-indigo-600 text-white font-bold py-4 rounded-xl shadow-lg active:scale-95 transition text-sm uppercase"
+              >
+                Send Message
+              </button>
+            </form>
+          </div>
         </div>
-    </nav>
+      </section>
 
-    <header class="max-w-6xl mx-auto px-6 py-24 text-center">
-        <h1 class="text-6xl font-extrabold mb-6 tracking-tight">Full-Stack <span class="text-indigo-600">Developer</span></h1>
-        <p class="text-lg text-slate-500 max-w-2xl mx-auto italic">"ជំរាបសួរ! ខ្ញុំបាទ សីហា ជាគ្រូបង្រៀនផ្នែក ICT និងជាអ្នកបង្កើតកម្មវិធី Web/Mobile ដែលមានបទពិសោធន៍ជាមួយ PHP, Node.js, និង Flutter។"</p>
-    </header>
+      <footer
+        class="text-center py-10 text-slate-400 border-t bg-white px-4 text-xs md:text-sm"
+      >
+        <p>© 2026 Seyha Em - Crafted with ❤️</p>
+      </footer>
+    </div>
 
-    <section id="projects" class="max-w-6xl mx-auto px-6 py-10">
-        <h2 class="text-3xl font-bold mb-10 border-l-4 border-indigo-600 pl-4">My Featured Projects</h2>
-        <div id="project-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="animate-pulse bg-slate-200 h-64 rounded-3xl"></div>
-            <div class="animate-pulse bg-slate-200 h-64 rounded-3xl"></div>
-        </div>
-    </section>
+    
+  <!-- </body><script>
+      // --- Splash Screen Logic ---
+      window.addEventListener("DOMContentLoaded", () => {
+        const splash = document.getElementById("splash-screen");
+        const wrapper = document.getElementById("main-wrapper");
+        const progress = document.getElementById("progress-bar");
 
-    <section id="contact" class="max-w-6xl mx-auto px-6 py-24">
-        <div class="bg-indigo-900 rounded-[3rem] p-12 text-white flex flex-col md:flex-row gap-12 shadow-2xl">
-            <div class="md:w-1/2">
-                <h2 class="text-4xl font-bold mb-6">Let's Connect</h2>
-                <p class="text-indigo-200 mb-10">សម្រាប់ការពិភាក្សាលើគម្រោងថ្មីៗ ឬសាកសួរព័ត៌មានបន្ថែម៖</p>
-                <div class="space-y-6">
-                    <div class="flex items-center gap-4">
-                        <span class="text-2xl">📧</span>
-                        <div><p class="text-sm text-indigo-300">Email</p><p class="font-bold">seyha.em.dev@gmail.com</p></div>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <span class="text-2xl">📱</span>
-                        <div><p class="text-sm text-indigo-300">Phone / Telegram</p><p class="font-bold">+855 88 123 4567</p></div>
+        document.body.style.overflow = "hidden"; // បិទ scroll ពេល loading
+        setTimeout(() => {
+          progress.style.width = "100%";
+        }, 100);
+
+        setTimeout(() => {
+          splash.style.opacity = "0";
+          splash.style.visibility = "hidden";
+          wrapper.classList.add("visible");
+          document.body.style.overflow = "auto"; // បើក scroll វិញ
+        }, 2500);
+      });
+
+      // UI Logic
+      const menuToggle = document.getElementById("menu-toggle");
+      const mobileMenu = document.getElementById("mobile-menu");
+      menuToggle.onclick = () => mobileMenu.classList.toggle("closed");
+      document.getElementById("menu-close").onclick = () =>
+        mobileMenu.classList.add("closed");
+      document
+        .querySelectorAll(".m-link")
+        .forEach((l) => (l.onclick = () => mobileMenu.classList.add("closed")));
+
+      // ១. ទាញយក Profile ចេញពី Database មកបង្ហាញ
+      async function loadProfile() {
+        try {
+          const res = await fetch("/api/profile");
+          const data = await res.json();
+          if (data.logo_url)
+            document.getElementById("main-logo").src = data.logo_url;
+          if (data.title)
+            document.getElementById("display-title").innerText = data.title;
+          if (data.bio)
+            document.getElementById("display-bio").innerText = data.bio;
+          if (data.gmail)
+            document.getElementById("display-gmail").innerText = data.gmail;
+          if (data.telegram)
+            document.getElementById("display-tele-link").href = data.telegram;
+        } catch (err) {
+          console.error("Profile load failed:", err);
+        }
+      }
+
+      async function fetchProjects() {
+        const res = await fetch("/api/projects");
+        const data = await res.json();
+        document.getElementById("project-list").innerHTML = data
+          .map(
+            (p) => `
+                <div class="bg-white border border-slate-100 rounded-3xl overflow-hidden hover:shadow-2xl transition duration-500 flex flex-col h-full group">
+                    <img src="${p.image_url || "https://via.placeholder.com/600x400"}" class="h-48 w-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="p-6 flex flex-col flex-grow text-center md:text-left">
+                        <span class="text-indigo-600 font-bold text-[10px] uppercase tracking-widest bg-indigo-50 px-3 py-1 rounded-full w-fit mx-auto md:mx-0 mb-4">${p.tags || "Dev"}</span>
+                        <h3 class="text-lg font-bold text-slate-900 line-clamp-1 italic">${p.title}</h3>
+                        <p class="text-slate-500 text-sm mt-3 flex-grow line-clamp-3">${p.description}</p>
+                        <a href="${p.link}" target="_blank" class="mt-6 font-bold text-indigo-600 text-sm">Explore Project →</a>
                     </div>
                 </div>
-            </div>
-            <div class="md:w-1/2 bg-white/10 p-8 rounded-3xl backdrop-blur-sm border border-white/20">
-                <form class="space-y-4">
-                    <input type="text" placeholder="Your Name" class="w-full p-4 bg-white/10 rounded-xl outline-none border border-white/20 focus:border-white">
-                    <textarea placeholder="Your Message" rows="4" class="w-full p-4 bg-white/10 rounded-xl outline-none border border-white/20 focus:border-white"></textarea>
-                    <button class="w-full bg-white text-indigo-900 font-bold py-4 rounded-xl hover:bg-indigo-50 transition">Send Inquiry</button>
-                </form>
-            </div>
-        </div>
-    </section>
+            `,
+          )
+          .join("");
+      }
 
-    <footer class="text-center py-10 text-slate-400 border-t">
-        <p>© 2026 Seyha Em - Crafted with ❤️ using Node.js & Postgres</p>
-    </footer>
+      document.getElementById("contactForm").onsubmit = async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("sendBtn");
+        btn.innerText = "Sending...";
+        const data = {
+          name: document.getElementById("s_name").value,
+          email: document.getElementById("s_email").value,
+          message: document.getElementById("s_message").value,
+        };
+        await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        alert("✅ Message Sent!");
+        e.target.reset();
+        btn.innerText = "Send Message";
+      };
+
+      loadProfile();
+      fetchProjects();
+    </script> -->
 
     <script>
-        async function fetchProjects() {
-            try {
-                const res = await fetch('/api/projects');
-                const data = await res.json();
-                const list = document.getElementById('project-list');
-                list.innerHTML = data.map(p => `
-                    <div class="bg-white border rounded-3xl overflow-hidden hover:shadow-2xl transition duration-500 group">
-                        <img src="${p.image_url || 'https://via.placeholder.com/400x250'}" class="w-full h-48 object-cover group-hover:scale-105 transition">
-                        <div class="p-6">
-                            <span class="text-indigo-600 font-bold text-xs uppercase tracking-widest">${p.tags || 'Project'}</span>
-                            <h3 class="text-xl font-bold mt-2">${p.title}</h3>
-                            <p class="text-slate-500 text-sm mt-2">${p.description}</p>
-                            <a href="${p.link}" target="_blank" class="mt-4 inline-block font-bold text-slate-900 underline">Explore Project</a>
-                        </div>
-                    </div>
-                `).join('');
-            } catch (err) { console.error("Error loading projects"); }
+      // --- ១. Splash Screen Logic ---
+      window.addEventListener("DOMContentLoaded", () => {
+        const splash = document.getElementById("splash-screen");
+        const wrapper = document.getElementById("main-wrapper");
+        const progress = document.getElementById("progress-bar");
+
+        document.body.style.overflow = "hidden";
+        setTimeout(() => {
+          if(progress) progress.style.width = "100%";
+        }, 100);
+
+        setTimeout(() => {
+          splash.style.opacity = "0";
+          splash.style.visibility = "hidden";
+          wrapper.classList.add("visible");
+          document.body.style.overflow = "auto";
+        }, 2500);
+      });
+
+      // --- ២. UI Logic (Mobile Menu) ---
+      const menuToggle = document.getElementById("menu-toggle");
+      const mobileMenu = document.getElementById("mobile-menu");
+      menuToggle.onclick = () => mobileMenu.classList.toggle("closed");
+      document.getElementById("menu-close").onclick = () => mobileMenu.classList.add("closed");
+      document.querySelectorAll(".m-link").forEach((l) => (l.onclick = () => mobileMenu.classList.add("closed")));
+
+      // --- ៣. Profile & Content Logic ---
+      async function loadProfile() {
+        try {
+          const res = await fetch("/api/profile");
+          const data = await res.json();
+          if (data.logo_url) document.getElementById("main-logo").src = data.logo_url;
+          if (data.title) document.getElementById("display-title").innerText = data.title;
+          if (data.bio) document.getElementById("display-bio").innerText = data.bio;
+          if (data.gmail) document.getElementById("display-gmail").innerText = data.gmail;
+          if (data.telegram) document.getElementById("display-tele-link").href = data.telegram;
+        } catch (err) {
+          console.error("Profile load failed:", err);
         }
-        fetchProjects();
+      }
+
+      // --- ៤. Projects Logic (ជាមួយ Filter & Slide Down) ---
+      let allProjects = []; // ទុកសម្រាប់ផ្ទុកទិន្នន័យគម្រោងទាំងអស់
+
+      async function fetchProjects() {
+        try {
+          const res = await fetch("/api/projects");
+          allProjects = await res.json();
+          renderProjects(allProjects); // បង្ហាញគម្រោងទាំងអស់នៅពេលដំបូង
+        } catch (err) {
+          console.error("Failed to fetch projects:", err);
+        }
+      }
+
+      function renderProjects(projects) {
+        const container = document.getElementById("project-list");
+        container.innerHTML = ""; // សម្អាតបញ្ជីចាស់
+
+        if (projects.length === 0) {
+          container.innerHTML = "<p class='col-span-full text-center text-slate-400 italic py-10'>No projects found in this category.</p>";
+          return;
+        }
+
+        projects.forEach((p, index) => {
+          const card = document.createElement("div");
+          // បន្ថែម Class 'project-card' ដើម្បីឱ្យវាមានចលនា Slide Down ពី CSS
+          card.className = "project-card bg-white border border-slate-100 rounded-3xl overflow-hidden hover:shadow-2xl transition duration-500 flex flex-col h-full group";
+          
+          // កំណត់ Delay ឱ្យវាធ្លាក់មកម្ដងមួយៗ (Stagger effect)
+          card.style.animationDelay = `${index * 100}ms`;
+          
+          card.innerHTML = `
+                <img src="${p.image_url || "https://via.placeholder.com/600x400"}" class="h-48 w-full object-cover group-hover:scale-105 transition duration-500">
+                <div class="p-6 flex flex-col flex-grow text-center md:text-left">
+                    <span class="text-indigo-600 font-bold text-[10px] uppercase tracking-widest bg-indigo-50 px-3 py-1 rounded-full w-fit mx-auto md:mx-0 mb-4">${p.category || "Web"}</span>
+                    <h3 class="text-lg font-bold text-slate-900 line-clamp-1 italic">${p.title}</h3>
+                    <p class="text-slate-500 text-sm mt-3 flex-grow line-clamp-3">${p.description}</p>
+                    <a href="${p.link}" target="_blank" class="mt-6 font-bold text-indigo-600 text-sm">Explore Project →</a>
+                </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      // Function សម្រាប់ Filter
+      function filterProjects(category) {
+        // ប្តូរស្ទាយប៊ូតុង Filter (Active State)
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('bg-white', 'text-indigo-600', 'shadow-sm');
+            btn.classList.add('text-slate-500');
+        });
+        
+        // ចាប់យកប៊ូតុងដែលកំពុងចុច រួចថែមស្ទាយ Active
+        const activeBtn = event.currentTarget;
+        activeBtn.classList.add('bg-white', 'text-indigo-600', 'shadow-sm');
+        activeBtn.classList.remove('text-slate-500');
+
+        // ច្រោះទិន្នន័យតាមប្រភេទ
+        const filtered = category === 'All' 
+            ? allProjects 
+            : allProjects.filter(p => p.category === category);
+        
+        renderProjects(filtered);
+      }
+
+      // --- ៥. Contact Form Logic ---
+      document.getElementById("contactForm").onsubmit = async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("sendBtn");
+        btn.innerText = "Sending...";
+        btn.disabled = true;
+
+        const data = {
+          name: document.getElementById("s_name").value,
+          email: document.getElementById("s_email").value,
+          message: document.getElementById("s_message").value,
+        };
+
+        try {
+          await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+          alert("✅ Message Sent!");
+          e.target.reset();
+        } catch (err) {
+          alert("❌ Error sending message!");
+        } finally {
+          btn.innerText = "Send Message";
+          btn.disabled = false;
+        }
+      };
+
+      // ហៅទិន្នន័យមកបង្ហាញ
+      loadProfile();
+      fetchProjects();
     </script>
-</body>
 </html>

@@ -1,0 +1,7 @@
+sooner:
+https://ui.shadcn.com/docs/components/radix/sonner
+shadcn:
+https://www.shadcnblocks.com/blocks
+react
+https://reactnative.dev/
+

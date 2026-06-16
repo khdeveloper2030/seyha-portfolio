@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>button test</title>
+	<script>
+		<!-- js where to -->
+	<!-- js where to -->
+	function myFunction(){
+		window.alert("succes");
+		document.getElementById("demo3").innerHTML = "Hello JS Where to!";
+		console.log("success");
+	}
+
+	// sum,substract,multi,devide
+	function oPeration(){
+		let x=5;
+		let y=6;
+		let sum = x+y;
+		let sub = x-y;
+		let multi = x* y;
+		let dev = x/y;
+ 
+		document.getElementById("demo4").innerHTML = "Total:"+sum + " substract:" + sub+ " multi:"+ multi + " Dev:" + dev;
+
+	}
+	</script>
+	
+</head>
+<body>
+	<!-- button demo 1-->
+	<p id="demo">Hello Button!</p>
+	<button type="button" onClick='document.getElementById("demo").innerHTML = "Hello Success"'>Click me!</button>
+
+	<!-- button demo2 -->
+	<button type="button" onClick='document.getElementById("demo2").src = "img/img1.gif"'>Turn on the light!</button>
+	<img id="demo2" src="img/img1.gif" style="width:100px">
+	<button type="button" onClick='document.getElementById("demo2").src = "img/img2.gif"'>Turn off the light!</button>
+
+
+	<!-- JS Where to -->
+	<p id="demo3">Hello WOrld!</p>
+	<button type="button" onclick="myFunction()">JS WHere to</button>
+
+	<p id="demo4">125</p>
+	<button type="button" onclick="oPeration()">Display</button>
+
+</body>
+</html>
